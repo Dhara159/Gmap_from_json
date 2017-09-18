@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    	<style>
+	    	body
+    		{
+		      	margin: 0;
+      			padding: 0;
+      			width: 100vw;
+      			height: 100vh;
+    		}
+	      	
+      		.margin
+      		{
+	        	margin-top: 20px;
+      		}
+	       		
+      		#default 
+      		{
+	        	height: 100%;
+        		width: 100%;
+      		}
+    	</style>
+  	</head>
+	<body onload="initMap()">
+  		<div id="default" style="width:100%; height:100%"></div>
+ 	</body>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOURKEY&callback=initMap" type="text/javascript"></script>
+    <script type="text/javascript" src="path/to/json/file"></script>
+    <script>
+    	var locations = JSON.parse(data);
+  		function initMap() 
+  		{
+    		var myOptions = 
+        	{
+      			center: new google.maps.LatLng(15.2993, 74.1240),
+      			zoom: 8,
+      			styles: 
+          		[
+            		{
+              			"featureType": "road",
+              			"stylers": 
+              			[
+                			{
+                  				"visibility": "off"
+                			}
+              			]
+            		}
+          		]
+      		};
+    		var map = new google.maps.Map(document.getElementById("default"), myOptions);
+			setMarkers(map,locations);
+      	}
+			
+      	function setMarkers(map,locations)
+		{
+	      	var marker, i
+			for (i = 0; i < locations.length+1 ; i++)
+ 			{  
+ 				var address = locations[i].add
+ 				var lat = locations[i].latitude
+ 				var long = locations[i].longitude
+ 				latlngset = new google.maps.LatLng(lat, long);
+  				var marker = new google.maps.Marker
+  				({  
+	          		map: map , position: latlngset  
+        		});
+
+  				var content = "<h3><b>"+address+"</b></h3>"
+        		map.setCenter(new google.maps.LatLng(15.2993, 74.1240))
+	  			var infowindow = new google.maps.InfoWindow()
+				google.maps.event.addListener(marker,'click', (function(marker,content,infowindow)
+          		{ 
+	    			return function() 
+            		{
+	        			infowindow.setContent(content);
+        				infowindow.open(map,marker);
+    				};
+				})(marker,content,infowindow)); 
+  			}
+  		}
+    </script>
+</html>
